@@ -34,7 +34,7 @@ export class PushDataComponent implements OnInit {
   
   pushFile()
   {
-    let fileUrl = "http://159.65.18.33:5000/push";
+    let fileUrl = "http://" + location.hostname + ":5000/push";
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "POST", fileUrl, false ); // false for synchronous request
     xmlHttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');

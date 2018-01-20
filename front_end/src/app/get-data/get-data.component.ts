@@ -34,7 +34,7 @@ export class GetDataComponent implements OnInit {
   
   getFile()
   {
-    let fileUrl = "http://159.65.18.33:5000/get/" + this.getForm.value.key;
+    let fileUrl = "http://" + location.hostname + ":5000/get/" + this.getForm.value.key;
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "GET", fileUrl, false ); // false for synchronous request
     xmlHttp.send( null );
