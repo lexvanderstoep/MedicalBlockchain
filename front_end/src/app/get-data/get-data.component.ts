@@ -27,9 +27,18 @@ export class GetDataComponent implements OnInit {
   onSubmit() {
     // rewrite this function
     if (this.getForm.valid) {
-       console.log("Form Submitted!", this.getForm.value);
+       window.alert(this.getFile());
        this.getForm.reset(); // reset the form
      }
   }
+  
+  getFile()
+  {
+    let fileUrl = "http://159.65.18.33:5000/get/" + this.getForm.value.key;
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", fileUrl, false ); // false for synchronous request
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
+    }
 
 }
