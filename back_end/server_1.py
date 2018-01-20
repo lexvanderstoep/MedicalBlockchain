@@ -1,4 +1,5 @@
 from flask import Flask, request
+import flask
 from subprocess import Popen, PIPE, call
 
 app = Flask(__name__)
@@ -15,7 +16,9 @@ def get(key):
         p = Popen(['ipfs', 'cat', key], stdin=PIPE, stdout=PIPE, stderr=PIPE)
         output, err = p.communicate(b" ")
         rc = p.returncode
-        return output
+        resp = flask.Response(output)
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        return resp
     else:
         return 'error'
 
@@ -26,7 +29,9 @@ def push():
         p = Popen(['ipfs', 'add'], stdin=PIPE, stdout=PIPE, stderr=PIPE)
         output, err = p.communicate(request.form['data'].encode())
         rc = p.returncode
-        return output.split(" ")[1]
+        resp = flask.Response(output.split(" ")[1])
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        return resp
     else:
         return 'Invalid request'
 
