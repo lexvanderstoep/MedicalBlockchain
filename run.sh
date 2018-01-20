@@ -1,5 +1,5 @@
 #!/bin/bash
-
+ipfs init
 ipfs daemon &
 back_end/run.sh &
 cd front_end
