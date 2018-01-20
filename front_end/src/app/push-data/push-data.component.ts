@@ -27,9 +27,19 @@ export class PushDataComponent implements OnInit {
   onSubmit() {
     // rewrite this function
     if (this.pushForm.valid) {
-       console.log("Form Submitted!", this.pushForm.value);
+       window.alert(this.pushFile());
        this.pushForm.reset(); // reset the form
      }
   }
+  
+  pushFile()
+  {
+    let fileUrl = "http://159.65.18.33:5000/push";
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "POST", fileUrl, false ); // false for synchronous request
+    xmlHttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xmlHttp.send("data=" + encodeURI(this.pushForm.value.key));
+    return xmlHttp.responseText;
+    }
 
 }
