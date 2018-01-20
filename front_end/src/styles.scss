@@ -1,0 +1,93 @@
+/* You can add global styles to this file, and also import other style files */
+html {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Lato', sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+h1 {
+  font-size: 36px;
+}
+
+a {
+  text-decoration: none;
+  color: #0B2545;
+  font-weight: 700;
+  text-transform: uppercase;
+
+  &:hover {
+    color: #3D405B;
+  }
+}
+
+nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  background-color: #E6E8E6;
+  height: 68px;
+  padding: 0 20px;
+
+  a {
+    padding-right: 20px;
+    line-height: 68px;
+    vertical-align: middle;
+  }
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding-top: 100px;
+  width: 100%;
+}
+
+.wrapper {
+  width: 100%;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 500px;
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+
+    label {
+      margin-bottom: 10px;
+    }
+
+    input {
+      padding: 5px;
+      outline: none;
+    }
+
+    margin-bottom: 30px;
+  }
+
+  .btn {
+    width: 40%;
+    height: 45px;
+    font-weight: 700;
+    font-size: 16px;
+    color: #fff;
+    background-color: #3D405B;
+  }
+}

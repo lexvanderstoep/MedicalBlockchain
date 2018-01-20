@@ -1,0 +1,13 @@
+<h1>Add some data</h1>
+
+<section class="wrapper">
+  <form [formGroup]="pushForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="name">Key</label>
+      <input type="text" class="form-control" id="key" formControlName="key" required>
+    </div>
+
+    <button type="submit" class="btn btn-success">Submit</button>
+  </form>
+
+</section>

@@ -1,0 +1,13 @@
+<h1>Get some text</h1>
+
+<section class="wrapper">
+  <form [formGroup]="getForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="name">Key</label>
+      <input type="text" class="form-control" id="key" formControlName="key" required>
+    </div>
+
+    <button type="submit" class="btn btn-success">Submit</button>
+  </form>
+
+</section>
