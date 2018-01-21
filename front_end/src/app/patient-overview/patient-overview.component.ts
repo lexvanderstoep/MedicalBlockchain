@@ -9,11 +9,11 @@ import {
 } from '@angular/forms';
 
 @Component({
-  selector: 'app-get-data',
-  templateUrl: './get-data.component.html',
-  styleUrls: ['./get-data.component.scss']
+  selector: 'app-patient-overview',
+  templateUrl: './patient-overview.component.html',
+  styleUrls: ['./patient-overview.component.scss']
 })
-export class GetDataComponent implements OnInit {
+export class PatientOverviewComponent implements OnInit {
   getForm: FormGroup;
 
   constructor() { }
@@ -31,7 +31,7 @@ export class GetDataComponent implements OnInit {
        this.getForm.reset(); // reset the form
      }
   }
-  
+
   getFile()
   {
     let fileUrl = "http://159.65.18.33:5000/get/" + this.getForm.value.key;

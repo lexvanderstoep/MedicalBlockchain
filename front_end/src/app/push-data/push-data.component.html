@@ -1,13 +1,19 @@
-<h1>Add some data</h1>
+<h1>Add a new record for patient ID </h1>
+<h2>{{ patientId }}</h2>
 
 <section class="wrapper">
   <form [formGroup]="pushForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
-      <label for="name">Key</label>
-      <input type="text" class="form-control" id="key" formControlName="key" required>
+      <label for="name">Diagnosis</label>
+      <input type="text" class="form-control" id="diagnosis" formControlName="diagnosis" required>
     </div>
 
-    <button type="submit" class="btn btn-success">Submit</button>
+    <div class="form-group">
+      <label for="name">Notes</label>
+      <textarea class="form-control" id="note" formControlName="note" required></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-success">Add new record</button>
   </form>
 
 </section>

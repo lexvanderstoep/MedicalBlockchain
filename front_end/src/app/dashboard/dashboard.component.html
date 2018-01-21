@@ -1,0 +1,10 @@
+<h1>Patients</h1>
+
+<section class="wrapper">
+  <div routerLink="/patient/{{patient.id}}"
+      routerLinkActive="active" class="card red" *ngFor="let patient of patients">
+    <div class="card--title">
+      {{ patient.firstname }} {{ patient.surname }}
+    </div>
+  </div>
+</section>
