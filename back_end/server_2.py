@@ -4,6 +4,28 @@ from subprocess import Popen, PIPE, call
 import psycopg2
 import arky.rest
 
+alice = "physical credit typical broken meat hidden funny pumpkin pass decline network park"
+bob = "rail million song dance robust flight april fresh detect reunion scorpion erupt"
+
+secret = bob
+
+arky.rest.use("med")
+
+'Returns the blockchain address of a passphrase'
+def secretToAddress(secret):
+    keys = arky.core.crypto.getKeys(secret)
+    publicKey = keys["publicKey"]
+    address = arky.core.crypto.getAddress(publicKey)
+    return address
+
+
+def askOwnership(ownSecret, recipientAddress, ID):
+    return arky.core.sendToken(amount=100000000, recipientId=recipientAddress, secret=ownSecret, vendorField=(str('1') + ID))
+
+def giveOwnership(ownSecret, recipientAddress, hashCode):
+    'Get the latest hash code belonging to ID'
+    return arky.core.sendToken(amount=100000000, recipientId=recipientAddress,secret=ownSecret, vendorField=(str('2') + hashCode))
+
 app = Flask(__name__)
 
 @app.route("/")
@@ -39,21 +61,22 @@ def push():
 
 
 def getIPFSKeyFromBlockchain(id):
-    conn = psycopg2.connect("dbname=ark_devnet user=postgres")
+    conn = psycopg2.connect("dbname=ark_mednet user=postgres")
     cur = conn.cursor()
-    cur.execute('SELECT * FROM transactions ORDER BY timestamp DESC LIMIT 1 WHERE vendorField LIKE "1%";')
-    a = cur.fetchone()
-    senderId = a[6]
-    recipientId = a[7]
-    cur.execute('SELECT * FROM transactions ORDER BY timestamp DESC LIMIT 1 WHERE vendorField LIKE "2%" AND senderId="%s" AND recipientId = "%s";' % (recipientId, senderId))
+    cur.execute('SELECT "senderId", "recipientId" FROM transactions WHERE "vendorField" LIKE \'2%\' ORDER BY timestamp DESC LIMIT 1;')
+    (senderId, recipientId) = cur.fetchone()
+    print('SELECT "vendorField" FROM transactions WHERE "vendorField" LIKE \'2%\' AND "senderId"=\'' + recipientId + '\' AND "recipientId" = \'' + senderId + '\' ORDER BY timestamp DESC LIMIT 1 ')
+    cur.execute('SELECT "vendorField" FROM transactions WHERE "vendorField" LIKE \'2%\' AND "senderId"=\'' + recipientId + '\' AND "recipientId" = \'' + senderId + '\' ORDER BY timestamp DESC LIMIT 1 ')
     b = cur.fetchone()
-    vendorField = a[13][1:]
+    print(b)
+    vendorField = b[0][1:]
     cur.close()
     conn.close()
     return vendorField
 
 def putIPFSKeyToBlockchain(id, ipfskey):
-    
+    print(askOwnership(secret, secretToAddress(secret), id))
+    print(giveOwnership(secret, secretToAddress(secret), ipfskey))
     return 0
 
 @app.route('/getLatest/<id>')
@@ -62,8 +85,8 @@ def getFileFromNHS(id):
     a = getIPFSKeyFromBlockchain(id)
     return get(a)
 
-@app.route('/pushToChain', methods=['GET', 'POST'])
-def putFileToNHS():
+@app.route('/pushToChain/<nhsnum>', methods=['GET', 'POST'])
+def putFileToNHS(nhsnum):
     if request.method == 'POST':
         p = Popen(['ipfs', 'add'], stdin=PIPE, stdout=PIPE, stderr=PIPE)
         output, err = p.communicate(request.form['data'].encode())
@@ -82,3 +105,7 @@ def putFileToNHS():
 @app.route('/test')
 def test():
     return '<form action="/push" method="post"><input type="text" name="data"><input type="submit"></form>'
+
+@app.route('/test2/')
+def test2():
+    return '<form action="/pushToChain/111111111" method="post"><input type="text" name="data"><input type="submit"></form>'
