@@ -3,11 +3,13 @@ import flask
 from subprocess import Popen, PIPE, call
 import psycopg2
 import arky.rest
+import json
+import fhirclient.models.patient as p
 
 alice = "physical credit typical broken meat hidden funny pumpkin pass decline network park"
 bob = "rail million song dance robust flight april fresh detect reunion scorpion erupt"
 
-secret = bob
+secret = alice
 
 arky.rest.use("med")
 
@@ -22,9 +24,9 @@ def secretToAddress(secret):
 def askOwnership(ownSecret, recipientAddress, ID):
     return arky.core.sendToken(amount=100000000, recipientId=recipientAddress, secret=ownSecret, vendorField=(str('1') + ID))
 
-def giveOwnership(ownSecret, recipientAddress, hashCode):
+def giveOwnership(ownSecret, recipientAddress, ID, hashCode):
     'Get the latest hash code belonging to ID'
-    return arky.core.sendToken(amount=100000000, recipientId=recipientAddress,secret=ownSecret, vendorField=(str('2') + hashCode))
+    return arky.core.sendToken(amount=100000000, recipientId=recipientAddress,secret=ownSecret, vendorField=(str('2') + ID + "." + hashCode))
 
 app = Flask(__name__)
 
@@ -63,27 +65,32 @@ def push():
 def getIPFSKeyFromBlockchain(id):
     conn = psycopg2.connect("dbname=ark_mednet user=postgres")
     cur = conn.cursor()
-    cur.execute('SELECT "senderId", "recipientId" FROM transactions WHERE "vendorField" LIKE \'2%\' ORDER BY timestamp DESC LIMIT 1;')
+    cur.execute('SELECT "senderId", "recipientId" FROM transactions WHERE "vendorField"=\'1'+id+'\' ORDER BY timestamp DESC LIMIT 1;')
     (senderId, recipientId) = cur.fetchone()
-    print('SELECT "vendorField" FROM transactions WHERE "vendorField" LIKE \'2%\' AND "senderId"=\'' + recipientId + '\' AND "recipientId" = \'' + senderId + '\' ORDER BY timestamp DESC LIMIT 1 ')
-    cur.execute('SELECT "vendorField" FROM transactions WHERE "vendorField" LIKE \'2%\' AND "senderId"=\'' + recipientId + '\' AND "recipientId" = \'' + senderId + '\' ORDER BY timestamp DESC LIMIT 1 ')
+    print('SELECT "vendorField" FROM transactions WHERE "vendorField" LIKE \'2' + id + '.%\' AND "senderId"=\'' + recipientId + '\' AND "recipientId" = \'' + senderId + '\' ORDER BY timestamp DESC LIMIT 1 ')
+    cur.execute('SELECT "vendorField" FROM transactions WHERE "vendorField" LIKE \'2' + id + '.%\' AND "senderId"=\'' + recipientId + '\' AND "recipientId" = \'' + senderId + '\' ORDER BY timestamp DESC LIMIT 1 ')
     b = cur.fetchone()
-    print(b)
-    vendorField = b[0][1:]
+    vendorField = b[0].split(".")[1]
+    print(vendorField)
     cur.close()
     conn.close()
     return vendorField
 
 def putIPFSKeyToBlockchain(id, ipfskey):
     print(askOwnership(secret, secretToAddress(secret), id))
-    print(giveOwnership(secret, secretToAddress(secret), ipfskey))
+    print(giveOwnership(secret, secretToAddress(secret), id, ipfskey))
     return 0
 
 @app.route('/getLatest/<id>')
 def getFileFromNHS(id):
     # 	get latest ipfs key
-    a = getIPFSKeyFromBlockchain(id)
-    return get(a)
+    try:
+        a = getIPFSKeyFromBlockchain(id)
+        return get(a)
+    except:
+        resp = flask.Response("Error, not found")
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        return resp
 
 @app.route('/pushToChain/<nhsnum>', methods=['GET', 'POST'])
 def putFileToNHS(nhsnum):
@@ -102,10 +109,22 @@ def putFileToNHS(nhsnum):
     else:
         return 'Invalid request'
 
+@app.route('/addToRecord/<nhsnum>', methods=['GET', 'POST'])
+def addToRecord(nhsnum):
+    input = json.load(request.get_json(force=True))
+    pjs = getFileFromNHS(nhsnum)
+    patient = p.Patient(pjs)
+    print(patient.name[0].given)
+    # add to diagnosis part
+    resp = flask.Response()
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
+
+
 @app.route('/test')
 def test():
     return '<form action="/push" method="post"><input type="text" name="data"><input type="submit"></form>'
 
 @app.route('/test2/')
 def test2():
-    return '<form action="/pushToChain/111111111" method="post"><input type="text" name="data"><input type="submit"></form>'
+    return '<form action="/pushToChain/111111112" method="post"><input type="text" name="data"><input type="submit"></form>'
