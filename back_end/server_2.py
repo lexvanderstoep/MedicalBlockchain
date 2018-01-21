@@ -117,10 +117,38 @@ def addToRecord(nhsnum):
     d = input.diagnosis
     n = input.notes
     print(d)
-    resp = flask.Response(d+n)
+    old_contents = getFileFromNHS(nhsnum).split('\n')
+
+    i = 0
+    contents = []
+    first_diagnosis = False
+    no_items = 0
+    #data.entry[id].resource.code.text
+
+    while i < len(old_contents):
+        if "http://standardhealthrecord.org/fhir/StructureDefinition/shr-encounter-Encounter" in old_contents[i]:
+            first_diagnosis = True
+        if "fullUrl" in old_contents[i] and first_diagnosis:
+            no_items += 1
+        if no_items is 2 and first_diagnosis:
+            contents = contents[:len(contents)-3]
+            contents += ['},\n', '{"code": {"text": "blah"}}\n', '{\n', '"fullUrl": "urn:uuid:47b9be7e-6010-4312-9d01-e02b6d6196b7",\n']
+        else:
+            contents.append(old_contents[i])
+        i += 1
+
+    contents = " ".join(contents)
+    p = Popen(['ipfs', 'add'], stdin=PIPE, stdout=PIPE, stderr=PIPE)
+    output, err = p.communicate(contents.encode())
+    rc = p.returncode
+    ipfskey = output.split(" ")[1]
+    res = putIPFSKeyToBlockchain(nhsnum, ipfskey)
+    if res == 0:
+        resp = flask.Response("Success")
+    else:
+        resp = flask.Response("Error")
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
-
 
 @app.route('/test')
 def test():
