@@ -1,6 +1,18 @@
 #!/bin/bash
+pgrep ipfs
+if [ $? -eq 1 ]; then
+    ipfs init
+    ipfs daemon &
+fi
+pgrep flask
+if [ $? -eq 1 ]; then
+cd back_end
+./run.sh &
+cd ..
+fi
 
-ipfs daemon &
-back_end/run.sh &
+pgrep "^ng"
+if [ $? -eq 1 ]; then
 cd front_end
 ng serve --host 0.0.0.0
+fi
