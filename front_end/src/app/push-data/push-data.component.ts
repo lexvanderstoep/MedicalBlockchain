@@ -26,7 +26,7 @@ export class PushDataComponent implements OnInit {
     this.getPatientId();
     this.pushForm = new FormGroup({
       diagnosis: new FormControl(),
-      note: new FormControl()
+      notes: new FormControl()
     });
   }
 
@@ -35,7 +35,8 @@ export class PushDataComponent implements OnInit {
   }
 
   onSubmit() {
-    this.patientData.postData(this.pushForm.value).subscribe(data => {
+    this.pushForm.reset();
+    this.patientData.postData(this.pushForm.value).then(data => {
       console.log(data);
     });
   }

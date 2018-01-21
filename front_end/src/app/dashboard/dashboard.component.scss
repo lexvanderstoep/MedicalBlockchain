@@ -2,6 +2,14 @@ h1 {
   text-align: center;
 }
 
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: 200px;
+}
+
 .card {
   display: flex;
   flex-direction: column;

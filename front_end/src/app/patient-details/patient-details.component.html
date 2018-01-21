@@ -8,7 +8,7 @@
     </div>
     <div class="info">
       <h2>Full name</h2>
-      <p>{{ patientDetails.name["0"].family.slice(0, -3) }} {{ patientDetails.name["0"].given["0"].slice(0, -3) }}</p>
+      <p>{{ patientDetails.name["0"].given["0"].slice(0, -3) }} {{ patientDetails.name["0"].family.slice(0, -3) }}</p>
 
       <h2>Date of Birth</h2>
       <p>{{ patientDetails.birthDate | date:'dd/MM/yyyy' }}</p>

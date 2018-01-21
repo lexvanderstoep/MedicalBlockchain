@@ -33,10 +33,9 @@ export class DiagnosisDetailComponent implements OnInit {
   }
 
   getData() {
-    this.patientData.getJSON().subscribe(data => {
+    this.patientData.getJSON().then(data => {
       let id = parseInt(this.diagnosisId) + 4;
       this.diagnosis = data.entry[id].resource.code.text;
-      // this.diagnosisData
     });
   }
 

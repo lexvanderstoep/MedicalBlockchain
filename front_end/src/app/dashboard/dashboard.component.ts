@@ -9,22 +9,24 @@ import { PatientDataService } from '../patient-data.service';
 })
 export class DashboardComponent implements OnInit {
   patients = [];
+  ids = [111111111, 111111121, 111111122, 111111123, 111111124, 111111125, 111111126, 111111127];
 
   constructor(private patientData: PatientDataService) { }
 
   ngOnInit(): void {
-    this.getPatientId();
+    this.getPatientIds();
   }
 
-  getPatientId() {
-    this.patientData.getJSON().subscribe(data => {
-      console.log(data.entry[1].resource.identifier["0"].value);
-      this.patients.push({
-        id: data.entry[1].resource.identifier["0"].value,
+  getPatientIds() {
+    for(let i = 0; i < this.ids.length; i++){
+      this.patientData.getPatient(this.ids[i]).then(data => {
+        this.patients.push({
+        id: this.ids[i],
         surname: data.entry[1].resource.name["0"].family.slice(0, -3),
         firstname: data.entry[1].resource.name["0"].given["0"].slice(0, -3)
       });
     });
+    }
   }
 
 }

@@ -13,24 +13,32 @@ import { PatientDataService } from '../patient-data.service';
 export class PatientDetailsComponent implements OnInit {
   patientId: any;
   patientDetails: any = [];
-  patientDiagnosisNo: any = '';
+  patientDiagnosisNo: any = 0;
   patientDiagnosis: any = [];
 
   constructor(private patientData: PatientDataService, private route: ActivatedRoute, private location: Location) { }
 
   ngOnInit():void {
     this.getPatientId();
-    this.getPatientDetails(this.patientId);
+    this.getPatientDetails();
   }
 
   getPatientId(): any {
     this.patientId = this.route.snapshot.paramMap.get('id');
   }
 
-  getPatientDetails(id): void {
-    this.patientData.getJSON().subscribe(data => {
+  getPatientDetails(): void {
+    this.patientData.getPatient(this.patientId).then(data => {
+      console.log(data);
       this.patientDetails = data.entry[1].resource;
-      this.patientDiagnosisNo = data.entry[3].resource.diagnosis.length;
+      // .push({
+      //   firstname: data.entry["1"].resource.name["0"].given["0"].slice(0, -3),
+      //   lastname: data.entry["1"].resource.name["0"].family.slice(0, -3),
+      //   dob: data.entry["1"].resource.birthDate,
+      //   gender: data.entry["1"].resource.gender,
+      //   address: data.entry["1"].resource.address["0"].city,
+      // });
+      this.patientDiagnosisNo = data.entry["3"].resource.diagnosis.length;
 
       for(let i = 0; i < this.patientDiagnosisNo; i++) {
         this.patientDiagnosis.push({
@@ -38,7 +46,6 @@ export class PatientDetailsComponent implements OnInit {
           date: data.entry[i+4].resource.assertedDate
         });
       }
-
      });
   }
 
