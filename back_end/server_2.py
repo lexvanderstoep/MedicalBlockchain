@@ -111,12 +111,13 @@ def putFileToNHS(nhsnum):
 
 @app.route('/addToRecord/<nhsnum>', methods=['GET', 'POST'])
 def addToRecord(nhsnum):
+    print("yes")
     input = json.load(request.get_json(force=True))
-    pjs = getFileFromNHS(nhsnum)
-    patient = p.Patient(pjs)
-    print(patient.name[0].given)
-    # add to diagnosis part
-    resp = flask.Response()
+    print(input)
+    d = input.diagnosis
+    n = input.notes
+    print(d)
+    resp = flask.Response(d+n)
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
 

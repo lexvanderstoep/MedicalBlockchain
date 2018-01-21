@@ -1,0 +1,35 @@
+{
+  "timeout": 5,
+  "begintime": [2017, 3, 21, 13],
+  "endpoints": "ark",
+  "familly": "ark",
+  "maxlimit": 50,
+  "maxvotepertx": 1,
+
+  "compressed": true,
+  "wif": "bb",
+  "marker": "1e",
+  "slip44": "111",
+  "bip32": {
+    "private": 70617039,
+    "public": 70615956
+  },
+
+  "headers" : {
+		"Content-Type" : "application/json; charset=utf-8",
+	  "port": "4100"
+},
+
+  "port": 4100,
+  "peers": [
+    "159.65.18.33"
+  ],
+  "broadcast": 10,
+  
+  "explorer" : "https://dexplorer.ark.io",
+  "token" : "med",
+	"symbol" : "MED",
+	"delegate": 51,
+  "blocktime": 8,
+  "blockreward": 2 
+}
