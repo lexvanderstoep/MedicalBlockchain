@@ -1,0 +1,149 @@
+{
+  "port": 4100,
+  "address": "0.0.0.0",
+  "version": "0.0.1",
+  "fileLogLevel": "info",
+  "logFileName": "logs/ark.log",
+  "consoleLogLevel": "debug",
+  "trustProxy": false,
+  "db": {
+    "host": "localhost",
+    "port": 5432,
+    "database": "ark_mednet",
+    "user": "postgres",
+    "password": " ",
+    "poolSize": 20,
+    "poolIdleTimeout": 30000,
+    "reapIntervalMillis": 1000,
+    "logEvents": [
+      "error"
+    ]
+  },
+  "api": {
+    "mount": true,
+    "access": {
+      "whiteList": []
+    },
+    "options": {
+      "limits": {
+        "max": 0,
+        "delayMs": 0,
+        "delayAfter": 0,
+        "windowMs": 60000
+      }
+    }
+  },
+  "peers": {
+    "minimumNetworkReach": 1,
+    "list": [
+      {
+        "ip": "127.0.0.1",
+        "port": 4100
+      },
+      {
+        "ip": "127.0.0.2",
+        "port": 4100
+      },
+      {
+        "ip": "127.0.0.3",
+        "port": 4100
+      },
+      {
+        "ip": "127.0.0.4",
+        "port": 4100
+      },
+      {
+        "ip": "127.0.0.5",
+        "port": 4100
+      }
+    ],
+    "blackList": [],
+    "options": {
+      "limits": {
+        "max": 0,
+        "delayMs": 0,
+        "delayAfter": 0,
+        "windowMs": 60000
+      },
+      "maxUpdatePeers": 20,
+      "timeout": 5000
+    }
+  },
+  "forging": {
+    "coldstart": 6,
+    "force": true,
+    "secret": [
+      "chapter index pilot job stumble lava seminar clown jealous front vote document",
+      "rebel rare scene verify teach border coffee judge time alien kite home",
+      "enter museum eager bachelor lock february soon disease chunk session month random",
+      "witness tape sting spatial excite expect sign busy true athlete maze gate",
+      "spider arch appear outer sweet damage success leave empower carbon drama easily",
+      "jaguar victory clip defy rack effort kitchen sample fatal burst utility desert",
+      "calm live cruise come youth grab uncle mistake tip jungle vanish they",
+      "number language verb attend assist solid mountain maximum sweet dress traffic bunker",
+      "need motion renew tower foam sweet gold salad child magic you chuckle",
+      "pencil wreck enact chalk invite improve title zebra train kind reject gesture",
+      "over flush pave clutch letter raise dentist minor outer idea bleak electric",
+      "donkey settle avocado clap much because fragile shift version disagree alien fever",
+      "embark chase differ deposit retire mass dance must tattoo climb assist hand",
+      "slide syrup skirt jaguar laugh device jelly random theme bacon beef kiss",
+      "grit call trouble lock coach essay cabbage comic tobacco exit cradle sea",
+      "hammer decide clump glove method meat battle burst attend cabbage chronic omit",
+      "thing gap train sausage one diet erase globe outdoor fame street about",
+      "meat first sound cook myth leg pave mixture onion baby normal feed",
+      "general rural immune faculty element venture express critic success please antique robot",
+      "black reject shed better recipe cream series noise attack buyer transfer grain",
+      "lamp giraffe oil diagram remain imitate picnic cute horse office surface traffic",
+      "index equip ritual sting alley exact sting unusual silly banana excess helmet",
+      "frost benefit camp ceiling spare split pumpkin copy dinner vessel run token",
+      "risk describe maid input stereo episode wolf just blanket public member assault",
+      "control emerge enjoy zoo expose stock broccoli cousin ignore surface height innocent",
+      "can write opera crunch squeeze youth mix siren income scheme oak acid",
+      "finger luggage urban between taste front what dash despair push assume elevator",
+      "lecture raccoon finger spring wage paddle picture obtain sketch hidden blood trend",
+      "clinic purse insect plastic leg host country proof title hero holiday umbrella",
+      "expect ridge noise cliff situate bar castle snake car model buffalo asset",
+      "entire afford sample remain vendor earth vocal snap wheat party dance carbon",
+      "twin confirm fire leopard mixture around grid cat carbon slender physical wait",
+      "always couple swing fringe discover matrix grant addict budget nice stairs better",
+      "usual usual nasty pretty siren slab document rally nasty armed display list",
+      "assist few donate dress point atom always amazing absorb office kiss recipe",
+      "gravity attitude carpet arctic slide team science pulse other canvas local solve",
+      "shallow roof creek note huge yard aisle main captain lock manage wet",
+      "matter tip organ swarm slam hammer ordinary sister pattern runway force truck",
+      "large insane soccer spy inquiry december inject impact still blue emerge arctic",
+      "warfare sail fantasy deny hood more inflict crouch barely victory wave view",
+      "famous siren eagle define still control sell chalk mention derive barely empty",
+      "can legend lock story goat you section town similar program denial priority",
+      "polar crash mango december noble absent inch soldier lion position name antenna",
+      "shrimp update auto filter salt rather idle rocket mandate weather pole boring",
+      "vague leisure clinic insane picnic grid original hard random accident rib lock",
+      "address ready upgrade slight rookie diamond scorpion siege symbol middle bar chalk",
+      "can basic hen social sister heart jungle rival brief poet salute clever",
+      "autumn mobile edge slam spatial ride clever pet kiwi patch success offer",
+      "nut gain face spell rally twenty rabbit carpet neglect ice barrel have",
+      "physical credit typical broken meat hidden funny pumpkin pass decline network park",
+      "rail million song dance robust flight april fresh detect reunion scorpion erupt"
+    ],
+    "access": {
+      "whiteList": [
+        "127.0.0.1"
+      ]
+    }
+  },
+  "loading": {
+    "verifyOnLoading": false,
+    "loadPerIteration": 5000
+  },
+  "ssl": {
+    "enabled": false,
+    "options": {
+      "port": 443,
+      "address": "0.0.0.0",
+      "key": "./ssl/ark.key",
+      "cert": "./ssl/ark.crt"
+    }
+  },
+  "network": "MedNet",
+  "nethash": "f6e0a360997c98283fba97b5f0b5ef8ecd6fa95ff1b3c06c7d654d56d6e01db8"
+}

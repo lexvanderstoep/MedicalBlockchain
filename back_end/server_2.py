@@ -109,17 +109,45 @@ def putFileToNHS(nhsnum):
     else:
         return 'Invalid request'
 
-@app.route('/addToRecord/<nhsnum>', methods=['GET', 'POST'])
-def addToRecord(nhsnum):
-    input = json.load(request.get_json(force=True))
-    pjs = getFileFromNHS(nhsnum)
-    patient = p.Patient(pjs)
-    print(patient.name[0].given)
-    # add to diagnosis part
-    resp = flask.Response()
+@app.route('/addToRecord/<nhsnum>/<d>/<n>', methods=['GET'])
+def addToRecord(nhsnum, d, n):
+    print("yes")
+#    input = json.load(request.get_json(force=True))
+#    print(input)
+#    d = input.diagnosis
+#    n = input.notes
+#    print(d)
+    old_contents = getFileFromNHS(nhsnum).data.split('\n')
+
+    i = 0
+    contents = []
+    first_diagnosis = False
+    no_items = 0
+    #data.entry[id].resource.code.text
+    while i < len(old_contents):
+        if "http://standardhealthrecord.org/fhir/StructureDefinition/shr-problem-Problem" in old_contents[i] and not first_diagnosis:
+            first_diagnosis = True
+            print(contents[len(contents)-6])
+            contents[len(contents)-6] = '\n{"code": {"text": "' + d +'"}},\n{\n'
+            print(contents[len(contents)-6])
+            contents.append(old_contents[i])
+        else:
+            contents.append(old_contents[i])
+        i += 1
+
+    contents = "\n".join(contents)
+    p = Popen(['ipfs', 'add'], stdin=PIPE, stdout=PIPE, stderr=PIPE)
+    output, err = p.communicate(contents.encode())
+    rc = p.returncode
+    ipfskey = output.split(" ")[1]
+    print(output)
+    res = putIPFSKeyToBlockchain(nhsnum, ipfskey)
+    if res == 0:
+        resp = flask.Response("Success")
+    else:
+        resp = flask.Response("Error")
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
-
 
 @app.route('/test')
 def test():
