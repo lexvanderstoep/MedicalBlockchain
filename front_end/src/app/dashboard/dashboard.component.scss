@@ -1,0 +1,30 @@
+h1 {
+  text-align: center;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  width: 290px;
+  height: 150px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  cursor: pointer;
+
+  margin: 20px;
+  padding: 20px 30px;
+
+  .card--title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .card--date {
+    font-size: 14px;
+    font-weight: 300;
+    color: #fff;
+  }
+}

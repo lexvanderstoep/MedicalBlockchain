@@ -7,6 +7,9 @@ import {
     Validators,
     FormBuilder
 } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+import { PatientDataService } from '../patient-data.service';
 
 @Component({
   selector: 'app-push-data',
@@ -15,31 +18,26 @@ import {
 })
 export class PushDataComponent implements OnInit {
   pushForm: FormGroup;
+  patientId;
 
-  constructor() { }
+  constructor(private route: ActivatedRoute, private location: Location, private patientData: PatientDataService) { }
 
   ngOnInit() {
+    this.getPatientId();
     this.pushForm = new FormGroup({
-      key: new FormControl()
+      diagnosis: new FormControl(),
+      note: new FormControl()
     });
   }
 
-  onSubmit() {
-    // rewrite this function
-    if (this.pushForm.valid) {
-       window.alert(this.pushFile());
-       this.pushForm.reset(); // reset the form
-     }
+  getPatientId(): any {
+    this.patientId = this.route.snapshot.paramMap.get('id');
   }
-  
-  pushFile()
-  {
-    let fileUrl = "http://" + location.hostname + ":5000/push";
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "POST", fileUrl, false ); // false for synchronous request
-    xmlHttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xmlHttp.send("data=" + encodeURI(this.pushForm.value.key));
-    return xmlHttp.responseText;
-    }
+
+  onSubmit() {
+    this.patientData.postData(this.pushForm.value).subscribe(data => {
+      console.log(data);
+    });
+  }
 
 }

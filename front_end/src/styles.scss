@@ -1,4 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+$card_colors: (
+  red: #FF4858,
+  green: #2FCC71,
+  purple: #845CEE,
+  yellow: #FFBA00,
+  blue: #0089FF
+);
+
 html {
   width: 100%;
   margin: 0;
@@ -15,9 +23,13 @@ h1 {
   font-size: 36px;
 }
 
+h2 {
+  font-size: 18px;
+}
+
 a {
   text-decoration: none;
-  color: #0B2545;
+  color: #0089FF;
   font-weight: 700;
   text-transform: uppercase;
 
@@ -48,8 +60,12 @@ main {
   justify-content: center;
   align-items: center;
 
-  padding-top: 100px;
+  padding-top: 60px;
   width: 100%;
+}
+
+app-dashboard {
+  width: 90%;
 }
 
 .wrapper {
@@ -75,8 +91,17 @@ form {
     }
 
     input {
+      font-size: 18px;
       padding: 5px;
       outline: none;
+      border: 1px solid #333;
+    }
+
+    textarea {
+      font-size: 18px;
+      padding: 5px;
+      outline: none;
+      border: 1px solid #333;
     }
 
     margin-bottom: 30px;
@@ -90,4 +115,25 @@ form {
     color: #fff;
     background-color: #3D405B;
   }
+}
+
+
+.red {
+  background-color: map-get($card_colors, red);
+}
+
+.green {
+  background-color: map-get($card_colors, green);
+}
+
+.purple {
+  background-color: map-get($card_colors, purple);
+}
+
+.blue {
+  background-color: map-get($card_colors, blue);
+}
+
+.yellow {
+  background-color: map-get($card_colors, yellow);
 }

@@ -1,0 +1,39 @@
+<h1>Data for patient ID </h1>
+<h2>{{ patientId }}</h2>
+
+<section class="wrapper">
+  <aside class="card sidebar">
+    <div class="photo">
+      <img src="./assets/photo.png" alt="Patient photo" />
+    </div>
+    <div class="info">
+      <h2>Full name</h2>
+      <p>{{ patientDetails.name["0"].family.slice(0, -3) }} {{ patientDetails.name["0"].given["0"].slice(0, -3) }}</p>
+
+      <h2>Date of Birth</h2>
+      <p>{{ patientDetails.birthDate | date:'dd/MM/yyyy' }}</p>
+
+      <h2>Gender</h2>
+      <p>{{ patientDetails.gender }}</p>
+
+      <h2>Address</h2>
+      <p>{{ patientDetails.address["0"].city }}</p>
+    </div>
+
+    <a routerLink="/patient/{{patientId}}/push"
+        routerLinkActive="active" alt="Add new record">Add new record</a>
+  </aside>
+
+  <div class="row">
+    <div class="card blue" *ngFor="let diagnosis of patientDiagnosis; let i = index"
+        routerLink="/patient/{{patientId}}/diagnosis/{{i}}"
+        routerLinkActive="active">
+      <div class="card--title">
+        {{ diagnosis.name }}
+      </div>
+      <div class="card--date">
+        {{ diagnosis.date | date:'dd/MM/yyyy' }}
+      </div>
+    </div>
+  </div>
+</section>
